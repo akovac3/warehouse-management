@@ -3,7 +3,7 @@ CREATE TABLE IF NOT EXISTS "product" (
 	"id"	INTEGER,
 	"name"	TEXT,
 	"amount"	INTEGER,
-	"import_price"	BLOB,
+	"import_price"	INTEGER,
 	"export_price"	INTEGER,
 	"code"	TEXT,
 	"warehouse"	INTEGER,
