@@ -31,4 +31,10 @@ public class Location {
         if(position<1) throw new IllegalLocationException("Wrong position");
         this.position = position;
     }
+
+    @Override
+    public String toString() {
+        return "section " + section +
+                ", position " + position ;
+    }
 }
