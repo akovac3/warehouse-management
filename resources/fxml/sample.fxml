@@ -1,8 +1,74 @@
-<?import javafx.geometry.Insets?>
-<?import javafx.scene.layout.GridPane?>
+<?xml version="1.0" encoding="UTF-8"?>
 
-<?import javafx.scene.control.Button?>
-<?import javafx.scene.control.Label?>
-<GridPane fx:controller="sample.Controller"
-          xmlns:fx="http://javafx.com/fxml" alignment="center" hgap="10" vgap="10">
-</GridPane>
+<?import javafx.geometry.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+
+<BorderPane prefHeight="400.0" prefWidth="850.0" xmlns="http://javafx.com/javafx/10.0.2-internal" xmlns:fx="http://javafx.com/fxml/1">
+    <left>
+        <VBox prefHeight="200.0" prefWidth="120.0">
+
+        </VBox>
+
+    </left>
+    <top>
+        <MenuBar>
+            <menus>
+                <Menu text="File">
+                    <items>
+                        <MenuItem text="Save" />
+                        <MenuItem text="Print" />
+                        <Menu text="Language">
+                            <items>
+                                <MenuItem text="Bosanski" />
+                                <MenuItem text="English" />
+                            </items>
+                        </Menu>
+
+                        <MenuItem fx:id="exit" text="Exit" />
+                    </items>
+                </Menu>
+                <Menu text="Help">
+                    <items>
+                        <MenuItem fx:id="about" text="About" />
+                    </items>
+                </Menu>
+            </menus>
+        </MenuBar>
+    </top>
+    <center>
+        <TableView fx:id="tableViewProducts" prefHeight="200.0" prefWidth="300.0" BorderPane.alignment="CENTER">
+            <columns>
+                <TableColumn fx:id="colName" prefWidth="83.0" text="Name" />
+                <TableColumn fx:id="colAmount" prefWidth="66.0" text="Amount" />
+                <TableColumn fx:id="colImportPrice" prefWidth="102.0" text="Import price" />
+                <TableColumn fx:id="colExportPrice" prefWidth="101.0" text="Export price" />
+                <TableColumn fx:id="colCode" prefWidth="82.0" text="Code" />
+                <TableColumn fx:id="colLocation" prefWidth="108.0" text="Location" />
+            </columns>
+        </TableView>
+    </center>
+    <right>
+        <VBox prefHeight="200.0" prefWidth="120.0" spacing="5.0" BorderPane.alignment="CENTER">
+            <children>
+                <Button fx:id="btnAddProduct" mnemonicParsing="false" prefWidth="Infinity" text="Add product" />
+                <Button fx:id="btnMoveProduct" mnemonicParsing="false" prefWidth="Infinity" text="Move product" />
+            </children>
+
+        </VBox>
+    </right>
+    <padding>
+    <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
+</padding>
+    <bottom>
+
+        <HBox prefHeight="40.0" prefWidth="200.0" spacing="5.0" BorderPane.alignment="BOTTOM_CENTER">
+                <Button fx:id="btnChoose" mnemonicParsing="false" prefHeight="25.0" prefWidth="205.0" text="Chose warehouse" />
+                <Button fx:id="btnMakeOrder" mnemonicParsing="false" prefHeight="25.0" prefWidth="205.0" text="Make order" />
+                <Button fx:id="btnGetProd" cancelButton="true" mnemonicParsing="false" prefHeight="25.0" prefWidth="205.0" text="Get products" />
+                <Button fx:id="btnExit" prefHeight="25.0" prefWidth="210.0" text="Exit" />
+
+        </HBox>
+    </bottom>
+
+</BorderPane>
