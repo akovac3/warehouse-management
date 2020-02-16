@@ -3,21 +3,24 @@ package sample;
 public class Product {
     private String name;
     private int amount;
-    private Location location;
     private int importPrice;
     private int exportPrice;
     private String code;
+    private Warehouse warehouse;
+    private Location location;
 
-    public Product(String name, int amount, Location location, int importPrice, int exportPrice, String code) {
+    public Product(String name, int amount, int importPrice, int exportPrice, String code, Warehouse warehouse, Location location) {
         this.name = name;
         this.amount = amount;
-        this.location = location;
         this.importPrice = importPrice;
         this.exportPrice = exportPrice;
         this.code = code;
+        this.warehouse = warehouse;
+        this.location = location;
     }
 
     public Product() {
+        warehouse = null;
         name=null;
         amount=0;
         location=null;
@@ -72,5 +75,13 @@ public class Product {
 
     public void setCode(String code) {
         this.code = code;
+    }
+
+    public Warehouse getWarehouse() {
+        return warehouse;
+    }
+
+    public void setWarehouse(Warehouse warehouse) {
+        this.warehouse = warehouse;
     }
 }
