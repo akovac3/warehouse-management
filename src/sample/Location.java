@@ -4,9 +4,9 @@ public class Location {
     private int section;
     private int position;
 
-    public Location(int section, int position) {
-        this.section = section;
-        this.position = position;
+    public Location(int section, int position) throws IllegalLocationException {
+        this.setSection(section);
+        this.setPosition(position);
     }
 
     public Location() {
@@ -18,7 +18,8 @@ public class Location {
         return section;
     }
 
-    public void setSection(int section) {
+    public void setSection(int section) throws IllegalLocationException {
+        if(section<10 || section%10!=0)throw new IllegalLocationException("Wrong section");
         this.section = section;
     }
 
@@ -26,7 +27,8 @@ public class Location {
         return position;
     }
 
-    public void setPosition(int position) {
+    public void setPosition(int position) throws IllegalLocationException {
+        if(position<1) throw new IllegalLocationException("Wrong position");
         this.position = position;
     }
 }
