@@ -1,25 +1,51 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
+<?import java.net.*?>
 <?import javafx.scene.control.*?>
 <?import javafx.scene.image.*?>
 <?import javafx.scene.layout.*?>
+<?import javafx.scene.text.*?>
 
+<BorderPane fx:id="main" prefHeight="300.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/10.0.2-internal" xmlns:fx="http://javafx.com/fxml/1">
+   <left>
+      <VBox prefHeight="200.0" prefWidth="200.0" spacing="10.0" BorderPane.alignment="CENTER">
 
-<GridPane prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/10.0.2-internal" xmlns:fx="http://javafx.com/fxml/1" >
-   <columnConstraints>
-      <ColumnConstraints />
-      <ColumnConstraints />
-   </columnConstraints>
-   <rowConstraints>
-      <RowConstraints />
-      <RowConstraints />
-      <RowConstraints />
-      <RowConstraints />
-   </rowConstraints>
-   <children>
-      <ImageView fitHeight="150.0" fitWidth="200.0" pickOnBounds="true" preserveRatio="true" GridPane.columnSpan="2"/>
-      <Label text="${controller.managerName}" fx:id="managerLabel"  GridPane.columnSpan="2" GridPane.rowIndex="1" />
-      <Label text="${controller.address}" fx:id="addressLabel" GridPane.rowIndex="2" GridPane.columnSpan="2" />
-      <Button mnemonicParsing="false" text="Button" GridPane.columnIndex="1" GridPane.rowIndex="3"/>
-   </children>
-</GridPane>
+      </VBox>
+   </left>
+   <top>
+      <VBox>
+         <Label fx:id="markLabel" text="${controller.mark}">
+            <font>
+               <Font name="System Bold" size="18.0" />
+            </font></Label>
+      </VBox>
+
+   </top>
+   <center>
+      <VBox prefHeight="200.0" prefWidth="200.0" spacing="5.0" BorderPane.alignment="CENTER">
+         <children>
+            <ImageView fx:id="imgView" fitHeight="300.0" fitWidth="200.0" pickOnBounds="true" preserveRatio="true" GridPane.columnSpan="2" />
+            <Label text="${controller.managerName}">
+               <font>
+                  <Font name="System Bold" size="14.0" />
+               </font></Label>
+            <Label text="${controller.address}">
+               <font>
+                  <Font name="System Bold" size="14.0" />
+               </font></Label>
+         </children>
+      </VBox>
+
+   </center>
+
+   <bottom>
+      <HBox alignment="TOP_RIGHT">
+         <Button mnemonicParsing="false" prefHeight="25.0" prefWidth="105.0" text="Ok" onAction="#exitAction" />
+      </HBox>
+
+   </bottom>
+
+<stylesheets>
+   <URL value="@/css/style.css" />
+</stylesheets>
+</BorderPane>
