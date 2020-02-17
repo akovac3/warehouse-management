@@ -2,21 +2,26 @@ package sample;
 
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
+import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
+import javafx.scene.control.ChoiceDialog;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.stage.Stage;
 
-import java.awt.event.ActionEvent;
 import java.io.IOException;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Optional;
 
 import static javafx.scene.layout.Region.USE_COMPUTED_SIZE;
 
 public class Controller {
+    private Warehouse warehouse=null;
     public TableView<Product> tableViewProducts;
     //public TableColumn colId;
     public TableColumn colName;
@@ -49,10 +54,13 @@ public class Controller {
     }
 
     public void aboutAction(ActionEvent actionEvent){
+        if(warehouse==null) return;
         Stage stage = new Stage();
         Parent root = null;
         try {
             FXMLLoader loader = new FXMLLoader(getClass().getResource("/fxml/about.fxml"));
+            AboutController ctrl = new AboutController(warehouse);
+            loader.setController(ctrl);
             root = loader.load();
             stage.setTitle("About");
             stage.setScene(new Scene(root, USE_COMPUTED_SIZE, USE_COMPUTED_SIZE));
@@ -63,19 +71,23 @@ public class Controller {
             e.printStackTrace();
         }
     }
-    public void saveAction(ActionEvent actionEvent){
 
-    }
-    public void printAction(ActionEvent actionEvent){
 
-    }
-    public void languageAction(ActionEvent actionEvent){
-
-    }
     public void addAction(ActionEvent actionEvent){
 
     }
     public void moveAction(ActionEvent actionEvent){
 
+    }
+
+    public void chooseAction(ActionEvent actionEvent){
+        List<String> choices = new ArrayList<>();
+        choices.add("A");
+        choices.add("B");
+        ChoiceDialog<String> dialog = new ChoiceDialog<>("A", choices);
+        dialog.setTitle("Choose warehouse");
+        dialog.setHeaderText("Choose warehouse:");
+        Optional<String> result = dialog.showAndWait();
+        result.ifPresent(letter -> warehouse=dao.getWarehouseByMark(letter));
     }
 }

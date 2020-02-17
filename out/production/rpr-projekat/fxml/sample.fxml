@@ -3,7 +3,7 @@
 <?import javafx.geometry.Insets?>
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
-<BorderPane prefHeight="400.0" prefWidth="850.0" xmlns="http://javafx.com/javafx/10.0.2-internal" xmlns:fx="http://javafx.com/fxml/1">
+<BorderPane prefHeight="400.0" prefWidth="850.0" xmlns="http://javafx.com/javafx/8.0.121" xmlns:fx="http://javafx.com/fxml/1">
     <left>
         <VBox prefHeight="200.0" prefWidth="120.0">
 
@@ -15,7 +15,7 @@
             <menus>
                 <Menu text="File">
                     <items>
-                        <MenuItem text="Save" />
+                        <MenuItem text="Save"/>
                         <MenuItem text="Print" />
                         <Menu text="Language">
                             <items>
@@ -24,12 +24,12 @@
                             </items>
                         </Menu>
 
-                        <MenuItem fx:id="exit" text="Exit" />
+                        <MenuItem fx:id="exit" text="Exit" onAction="#exitAction"/>
                     </items>
                 </Menu>
                 <Menu text="Help">
                     <items>
-                        <MenuItem fx:id="about" text="About" />
+                        <MenuItem fx:id="about" text="About" onAction="#aboutAction"/>
                     </items>
                 </Menu>
             </menus>
@@ -50,7 +50,7 @@
     <right>
         <VBox prefHeight="200.0" prefWidth="120.0" spacing="5.0" BorderPane.alignment="CENTER">
             <children>
-                <Button fx:id="btnAddProduct" mnemonicParsing="false" prefWidth="Infinity" text="Add product" />
+                <Button fx:id="btnAddProduct" mnemonicParsing="false" prefWidth="Infinity" text="Add product"/>
                 <Button fx:id="btnMoveProduct" mnemonicParsing="false" prefWidth="Infinity" text="Move product" />
             </children>
 
@@ -62,11 +62,10 @@
     <bottom>
 
         <HBox prefHeight="40.0" prefWidth="200.0" spacing="5.0" BorderPane.alignment="BOTTOM_CENTER">
-                <Button fx:id="btnChoose" mnemonicParsing="false" prefHeight="25.0" prefWidth="205.0" text="Chose warehouse" />
+                <Button fx:id="btnChoose" mnemonicParsing="false" prefHeight="25.0" prefWidth="205.0" text="Choose warehouse" onAction="#chooseAction"/>
                 <Button fx:id="btnMakeOrder" mnemonicParsing="false" prefHeight="25.0" prefWidth="205.0" text="Make order" />
                 <Button fx:id="btnGetProd" cancelButton="true" mnemonicParsing="false" prefHeight="25.0" prefWidth="205.0" text="Get products" />
-                <Button fx:id="btnExit" prefHeight="25.0" prefWidth="210.0" text="Exit" />
-
+                <Button fx:id="btnExit" prefHeight="25.0" prefWidth="210.0" text="Exit" onAction="#exitAction"/>
         </HBox>
     </bottom>
 

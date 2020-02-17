@@ -9,7 +9,7 @@ import java.util.Scanner;
 public class WarehouseDAO {
     private static WarehouseDAO instance;
     private Connection conn;
-    private PreparedStatement getProductsQuery, getWarehouseQuery, getLocationQuery;
+    private PreparedStatement getProductsQuery, getWarehouseQuery, getLocationQuery, getWarehouseByMarkQuery;
     //private ObservableList<Product> products = FXCollections.observableArrayList();
 
     public WarehouseDAO (){
@@ -33,6 +33,7 @@ public class WarehouseDAO {
         try {
             getWarehouseQuery = conn.prepareStatement("SELECT manager, address, mark FROM warehouse WHERE id=?");
             getLocationQuery = conn.prepareStatement("SELECT * FROM location WHERE id=?");
+            getWarehouseByMarkQuery = conn.prepareStatement("SELECT manager, address, mark FROM warehouse WHERE mark=?");
         } catch (SQLException e) {
             e.printStackTrace();
         }
@@ -141,5 +142,16 @@ public class WarehouseDAO {
         return l;
     }
 
+    public Warehouse getWarehouseByMark(String mark){
+        Warehouse w= null;
+        try {
+            getWarehouseByMarkQuery.setString(1,mark);
+            ResultSet rs = getWarehouseByMarkQuery.executeQuery();
+            w= getWarehouseFromRS(rs);
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return w;
+    }
 
 }
