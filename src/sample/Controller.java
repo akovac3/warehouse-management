@@ -23,7 +23,6 @@ import static javafx.scene.layout.Region.USE_COMPUTED_SIZE;
 public class Controller {
     private Warehouse warehouse=null;
     public TableView<Product> tableViewProducts;
-    //public TableColumn colId;
     public TableColumn colName;
     public TableColumn colAmount;
     public TableColumn colImportPrice;
@@ -35,7 +34,7 @@ public class Controller {
 
     public Controller() {
         dao = WarehouseDAO.getInstance();
-        listProducts = FXCollections.observableArrayList(dao.products());
+        listProducts = FXCollections.observableArrayList(dao.products(null));
     }
 
     @FXML
@@ -88,6 +87,9 @@ public class Controller {
         dialog.setTitle("Choose warehouse");
         dialog.setHeaderText("Choose warehouse:");
         Optional<String> result = dialog.showAndWait();
-        result.ifPresent(letter -> warehouse=dao.getWarehouseByMark(letter));
+        result.ifPresent(letter -> {
+            warehouse = dao.getWarehouseByMark(letter);
+            listProducts.setAll(dao.products(warehouse));
+        });
     }
 }

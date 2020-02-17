@@ -1,12 +1,14 @@
 package sample;
 
 public class Warehouse {
+    private int id;
     private String managerName;
     private String address;
     private String mark;
     private String image;
 
-    public Warehouse(String managerName, String address, String mark, String image) {
+    public Warehouse(int id, String managerName, String address, String mark, String image) {
+        this.id = id;
         this.managerName = managerName;
         this.address = address;
         this.mark = mark;
@@ -18,6 +20,7 @@ public class Warehouse {
         address=null;
         mark=null;
         image=null;
+        id=0;
     }
 
     public String getManagerName() {
@@ -50,5 +53,13 @@ public class Warehouse {
 
     public void setImage(String image) {
         this.image = image;
+    }
+
+    public void setId(int id) {
+        this.id = id;
+    }
+
+    public int getId() {
+        return id;
     }
 }
