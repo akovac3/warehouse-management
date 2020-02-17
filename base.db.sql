@@ -26,6 +26,35 @@ CREATE TABLE IF NOT EXISTS "warehouse" (
 	"image"  TEXT,
 	PRIMARY KEY("id")
 );
+
+CREATE TABLE IF NOT EXISTS "order" (
+    "id"    INTEGER,
+    "date"  DATE,
+    "product"  INTEGER,
+    "amount"   INTEGER,
+    "total_price"   INTEGER,
+    PRIMARY KEY("id"),
+	FOREIGN KEY("product") REFERENCES "product"("id")
+);
+
+CREATE TABLE IF NOT EXISTS "delivery" (
+    "id"    INTEGER,
+    "date"  DATE,
+    "product"  INTEGER,
+    "amount"   INTEGER,
+    "total_price"   INTEGER,
+    PRIMARY KEY("id"),
+	FOREIGN KEY("product") REFERENCES "product"("id")
+);
+
+CREATE TABLE IF NOT EXISTS "annual_report" (
+    "id"   INTEGER,
+    "year"   INTEGER,
+    "profit"   INTEGER,
+    "cost"   INTEGER,
+    PRIMARY KEY("id")
+);
+
 INSERT INTO "product" VALUES (1,'keyboard',15,20,30,'#123',1,1);
 INSERT INTO "product" VALUES (2,'mouse',10,15,25,'#124',1,2);
 INSERT INTO "product" VALUES (3,'monitor',12,200,300,'#125',1,3);
@@ -40,4 +69,5 @@ INSERT INTO "location" VALUES (3,30,1);
 INSERT INTO "location" VALUES (4,40,1);
 INSERT INTO "warehouse" VALUES (1,'John Smith','Alipasina 1, Sarajevo','A', 'C:\Users\HP\IdeaProjects\rpr-projekat\resources\img\warhouseA.jpg');
 INSERT INTO "warehouse" VALUES (2,'Will Smith','Ferhadija 5, Sarajevo','B', 'C:\Users\HP\IdeaProjects\rpr-projekat\resources\img\warehouseB.jpg');
+INSERT INTO "annual_report" VALUES (1, 2020, 0, 0);
 COMMIT;

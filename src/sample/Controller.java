@@ -14,7 +14,13 @@ import javafx.scene.control.TableView;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.stage.Stage;
 
+import javax.swing.*;
+import javax.swing.filechooser.FileNameExtensionFilter;
+import javax.swing.filechooser.FileSystemView;
+import java.io.File;
+import java.io.FileWriter;
 import java.io.IOException;
+import java.io.PrintWriter;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
@@ -142,5 +148,25 @@ public class Controller {
             warehouse = dao.getWarehouseByMark(letter);
             listProducts.setAll(dao.products(warehouse));
         });
+    }
+
+    public void saveAction(ActionEvent actionEvent){
+        JFileChooser jfc = new JFileChooser(FileSystemView.getFileSystemView().getHomeDirectory());
+        FileNameExtensionFilter fileNameExtensionFilter = new FileNameExtensionFilter("txt file","txt");
+        jfc.setAcceptAllFileFilterUsed(false);
+        jfc.addChoosableFileFilter(fileNameExtensionFilter);
+        if (jfc.showOpenDialog(null) == JFileChooser.APPROVE_OPTION) {
+            File file= new File(jfc.getSelectedFile().getAbsolutePath());
+            PrintWriter output;
+            try {
+                output = new PrintWriter(new FileWriter(file));
+                for(Product product : listProducts){
+                    output.write(product.getName() + " " + product.getAmount() + " " + product.getImportPrice() + " " + product.getExportPrice() + " " + product.getCode() + " " + product.getWarehouse().getMark() + " " + product.getLocation().getSection() + "\n");
+                }
+                output.close();
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        }
     }
 }

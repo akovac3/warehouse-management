@@ -1,10 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<?import java.net.*?>
-<?import javafx.geometry.*?>
+<?import javafx.geometry.Insets?>
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
-
+<?import java.net.URL?>
 <BorderPane fx:id="main" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" prefHeight="400.0" prefWidth="850.0" xmlns="http://javafx.com/javafx/10.0.2-internal" xmlns:fx="http://javafx.com/fxml/1">
     <left>
         <VBox prefHeight="200.0" prefWidth="120.0">
@@ -17,7 +16,7 @@
             <menus>
                 <Menu text="File">
                     <items>
-                        <MenuItem text="Save" />
+                        <MenuItem text="Save" onAction="#saveAction" />
                         <MenuItem text="Print" />
                         <Menu text="Language">
                             <items>
@@ -40,12 +39,12 @@
     <center>
         <TableView fx:id="tableViewProducts" prefHeight="200.0" prefWidth="300.0" BorderPane.alignment="CENTER">
             <columns>
-                <TableColumn fx:id="colName" prefWidth="83.0" text="Name" />
-                <TableColumn fx:id="colAmount" prefWidth="66.0" text="Amount" />
-                <TableColumn fx:id="colImportPrice" prefWidth="102.0" text="Import price" />
-                <TableColumn fx:id="colExportPrice" prefWidth="101.0" text="Export price" />
-                <TableColumn fx:id="colCode" prefWidth="82.0" text="Code" />
-                <TableColumn fx:id="colLocation" prefWidth="165.0" text="Location" />
+                <TableColumn fx:id="colName" prefWidth="90.00001525878906" text="Name" />
+                <TableColumn fx:id="colAmount" prefWidth="68.0" text="Amount" />
+                <TableColumn fx:id="colImportPrice" prefWidth="100.0" text="Import price" />
+                <TableColumn fx:id="colExportPrice" prefWidth="94.0" text="Export price" />
+                <TableColumn fx:id="colCode" prefWidth="92.0" text="Code" />
+                <TableColumn fx:id="colLocation" prefWidth="164.0" text="Location" />
             </columns>
         </TableView>
     </center>
