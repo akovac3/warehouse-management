@@ -31,9 +31,9 @@ public class WarehouseDAO {
         }
 
         try {
-            getWarehouseQuery = conn.prepareStatement("SELECT manager, address, mark FROM warehouse WHERE id=?");
+            getWarehouseQuery = conn.prepareStatement("SELECT manager, address, mark, image FROM warehouse WHERE id=?");
             getLocationQuery = conn.prepareStatement("SELECT * FROM location WHERE id=?");
-            getWarehouseByMarkQuery = conn.prepareStatement("SELECT manager, address, mark FROM warehouse WHERE mark=?");
+            getWarehouseByMarkQuery = conn.prepareStatement("SELECT manager, address, mark, image FROM warehouse WHERE mark=?");
         } catch (SQLException e) {
             e.printStackTrace();
         }
@@ -128,7 +128,7 @@ public class WarehouseDAO {
     }*/
 
     private Warehouse getWarehouseFromRS(ResultSet rs) throws SQLException {
-        Warehouse w = new Warehouse(rs.getString(1), rs.getString(2), rs.getString(3));
+        Warehouse w = new Warehouse(rs.getString(1), rs.getString(2), rs.getString(3), rs.getString(4));
         return w;
     }
 
