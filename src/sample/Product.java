@@ -1,6 +1,7 @@
 package sample;
 
 public class Product {
+    private int id;
     private String name;
     private int amount;
     private int importPrice;
@@ -9,7 +10,8 @@ public class Product {
     private Warehouse warehouse;
     private Location location;
 
-    public Product(String name, int amount, int importPrice, int exportPrice, String code, Warehouse warehouse, Location location) {
+    public Product(int id, String name, int amount, int importPrice, int exportPrice, String code, Warehouse warehouse, Location location) {
+        this.id = id;
         this.name = name;
         this.amount = amount;
         this.importPrice = importPrice;
@@ -20,6 +22,7 @@ public class Product {
     }
 
     public Product() {
+        id=0;
         warehouse = null;
         name=null;
         amount=0;
@@ -83,5 +86,13 @@ public class Product {
 
     public void setWarehouse(Warehouse warehouse) {
         this.warehouse = warehouse;
+    }
+
+    public int getId() {
+        return id;
+    }
+
+    public void setId(int id) {
+        this.id = id;
     }
 }

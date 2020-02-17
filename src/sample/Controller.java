@@ -7,6 +7,7 @@ import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
+import javafx.scene.control.Alert;
 import javafx.scene.control.ChoiceDialog;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
@@ -46,6 +47,14 @@ public class Controller {
         colExportPrice.setCellValueFactory(new PropertyValueFactory("exportPrice"));
         colCode.setCellValueFactory(new PropertyValueFactory("code"));
         colLocation.setCellValueFactory(new PropertyValueFactory("location"));
+
+        tableViewProducts.getSelectionModel().selectedItemProperty().addListener((obs, oldProduct, newProduct) -> {
+            dao.setCurrentProduct(newProduct);
+        });
+
+        dao.currentProductProperty().addListener((obs, oldProduct, newProduct) -> {
+
+        });
     }
 
     public void exitAction(ActionEvent actionEvent){
@@ -75,8 +84,29 @@ public class Controller {
     public void addAction(ActionEvent actionEvent){
 
     }
-    public void moveAction(ActionEvent actionEvent){
 
+    public void moveAction(ActionEvent actionEvent){
+        if(dao.getCurrentProduct()!=null) {
+            List<String> choices = new ArrayList<>();
+            choices.add("A");
+            choices.add("B");
+            ChoiceDialog<String> dialog = new ChoiceDialog<>("", choices);
+            dialog.setTitle("Choose warehouse");
+            dialog.setHeaderText("Choose warehouse:");
+            Optional<String> result = dialog.showAndWait();
+            result.ifPresent(letter -> {
+                dao.moveProduct(dao.getCurrentProduct(), dao.getWarehouseByMark(letter).getId());
+                listProducts.setAll(dao.products(warehouse));
+            });
+        }
+        else{
+            Alert alert = new Alert(Alert.AlertType.ERROR);
+            alert.setTitle("Error Dialog");
+            alert.setHeaderText("Error Current Product");
+            alert.setContentText("You need to select product first!");
+
+            alert.showAndWait();
+        }
     }
 
     public void chooseAction(ActionEvent actionEvent){

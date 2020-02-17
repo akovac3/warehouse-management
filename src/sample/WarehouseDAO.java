@@ -1,5 +1,7 @@
 package sample;
 
+import javafx.beans.property.SimpleObjectProperty;
+
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.sql.*;
@@ -9,8 +11,8 @@ import java.util.Scanner;
 public class WarehouseDAO {
     private static WarehouseDAO instance;
     private Connection conn;
-    private PreparedStatement getProductsQuery, getWarehouseQuery, getLocationQuery, getWarehouseByMarkQuery, getProductsByWarehouseQuery;
-    //private ObservableList<Product> products = FXCollections.observableArrayList();
+    private PreparedStatement getProductsQuery, getWarehouseQuery, getLocationQuery, getWarehouseByMarkQuery, getProductsByWarehouseQuery, updateWarehouseOfProductQuery;
+    private SimpleObjectProperty<Product> currentProduct = new SimpleObjectProperty<>();
 
     public WarehouseDAO (){
         try {
@@ -35,6 +37,7 @@ public class WarehouseDAO {
             getLocationQuery = conn.prepareStatement("SELECT * FROM location WHERE id=?");
             getWarehouseByMarkQuery = conn.prepareStatement("SELECT id, manager, address, mark, image FROM warehouse WHERE mark=?");
             getProductsByWarehouseQuery = conn.prepareStatement("SELECT * FROM product WHERE warehouse=?");
+            updateWarehouseOfProductQuery = conn.prepareStatement("UPDATE product SET warehouse=? WHERE id=?");
         } catch (SQLException e) {
             e.printStackTrace();
         }
@@ -86,10 +89,6 @@ public class WarehouseDAO {
         return conn;
     }
 
-   // public ObservableList<Product> getProducts() { return products;}
-
-   // public void setProducts(ObservableList<Product> products) { this.products = products;}
-
     public ArrayList<Product> products(Warehouse wh) {
         ArrayList<Product> result = new ArrayList<>();
 
@@ -108,32 +107,15 @@ public class WarehouseDAO {
                     getLocationQuery.setInt(1, rs.getInt(8));
                     ResultSet s= getLocationQuery.executeQuery();
                     Location l = getLocationFromRS(s);
-                    Product p = new Product(rs.getString(2), rs.getInt(3), rs.getInt(4), rs.getInt(5), rs.getString(6), w, l);
+                    Product p = new Product(rs.getInt(1), rs.getString(2), rs.getInt(3), rs.getInt(4), rs.getInt(5), rs.getString(6), w, l);
                     result.add(p);
                 }
             } catch (SQLException ex) {
             ex.printStackTrace();
         }
+        currentProduct.set(null);
         return result;
     }
-
-    /*public void load(){
-        try {
-            ResultSet rs = getProductsQuery.executeQuery();
-            while (rs.next()){
-                getWarehouseQuery.setInt(1,rs.getInt(7));
-                ResultSet r = getWarehouseQuery.executeQuery();
-                Warehouse w = getWarehouseFromRS(r);
-                getLocationQuery.setInt(1, rs.getInt(8));
-                r= getLocationQuery.executeQuery();
-                Location l = getLocationFromRS(r);
-                Product p = new Product(rs.getString(2), rs.getInt(3), rs.getInt(4), rs.getInt(5), rs.getString(6), w,l);
-                products.add(p);
-            }
-        } catch (SQLException e) {
-            e.printStackTrace();
-        }
-    }*/
 
     private Warehouse getWarehouseFromRS(ResultSet rs) throws SQLException {
         Warehouse w = new Warehouse(rs.getInt(1), rs.getString(2), rs.getString(3), rs.getString(4), rs.getString(5));
@@ -162,4 +144,26 @@ public class WarehouseDAO {
         return w;
     }
 
+    public Product getCurrentProduct() {
+        return currentProduct.get();
+    }
+
+    public SimpleObjectProperty<Product> currentProductProperty() {
+        return currentProduct;
+    }
+
+    public void setCurrentProduct(Product currentProduct) {
+        this.currentProduct.set(currentProduct);
+    }
+
+    public void moveProduct(Product p, int wh){
+        if(wh==p.getWarehouse().getId())return;
+        try {
+            updateWarehouseOfProductQuery.setInt(1, wh);
+            updateWarehouseOfProductQuery.setInt(2, p.getId());
+            updateWarehouseOfProductQuery.executeUpdate();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+    }
 }
