@@ -82,7 +82,28 @@ public class Controller {
 
 
     public void addAction(ActionEvent actionEvent){
+        Stage stage = new Stage();
+        Parent root = null;
+        try {
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("/fxml/add.fxml"));
+            AddController ctrl = new AddController(dao.getListWarehouse());
+            loader.setController(ctrl);
+            root = loader.load();
+            stage.setTitle("About");
+            stage.setScene(new Scene(root, USE_COMPUTED_SIZE, USE_COMPUTED_SIZE));
+            stage.setResizable(true);
+            stage.show();
 
+            stage.setOnHiding( event -> {
+                Product product = ctrl.getProduct();
+                if(product!=null) {
+                    dao.addProduct(product);
+                    listProducts.setAll(dao.products(warehouse));
+                }
+            });
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
     }
 
     public void moveAction(ActionEvent actionEvent){

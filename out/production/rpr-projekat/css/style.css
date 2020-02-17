@@ -9,3 +9,10 @@
 #markLabel {
     -fx-text-fill: sienna;
 }
+
+.fieldCorrect {
+    -fx-control-inner-background: palegreen;
+}
+.fieldNotCorrect {
+    -fx-control-inner-background: lightpink;
+}

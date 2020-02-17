@@ -51,7 +51,7 @@
     <right>
         <VBox prefHeight="200.0" prefWidth="120.0" spacing="5.0" BorderPane.alignment="CENTER">
             <children>
-                <Button fx:id="btnAddProduct" mnemonicParsing="false" prefWidth="Infinity" text="Add product"/>
+                <Button fx:id="btnAddProduct" mnemonicParsing="false" prefWidth="Infinity" text="Add product" onAction="#addAction"/>
                 <Button fx:id="btnMoveProduct" mnemonicParsing="false" prefWidth="Infinity" text="Move product" onAction="#moveAction"/>
             </children>
 

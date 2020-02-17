@@ -11,7 +11,7 @@ import java.util.Scanner;
 public class WarehouseDAO {
     private static WarehouseDAO instance;
     private Connection conn;
-    private PreparedStatement getProductsQuery, getWarehouseQuery, getLocationQuery, getWarehouseByMarkQuery, getProductsByWarehouseQuery, updateWarehouseOfProductQuery;
+    private PreparedStatement getProductsQuery, getWarehouseByIdQuery, getLocationQuery, getWarehouseByMarkQuery, getProductsByWarehouseQuery, updateWarehouseOfProductQuery, getWarehouseQuery, getMaxProductId, getMaxLocationId, addProductQuery, addLocationQuery;
     private SimpleObjectProperty<Product> currentProduct = new SimpleObjectProperty<>();
 
     public WarehouseDAO (){
@@ -33,11 +33,16 @@ public class WarehouseDAO {
         }
 
         try {
-            getWarehouseQuery = conn.prepareStatement("SELECT id, manager, address, mark, image FROM warehouse WHERE id=?");
+            getWarehouseByIdQuery = conn.prepareStatement("SELECT id, manager, address, mark, image FROM warehouse WHERE id=?");
             getLocationQuery = conn.prepareStatement("SELECT * FROM location WHERE id=?");
             getWarehouseByMarkQuery = conn.prepareStatement("SELECT id, manager, address, mark, image FROM warehouse WHERE mark=?");
             getProductsByWarehouseQuery = conn.prepareStatement("SELECT * FROM product WHERE warehouse=?");
             updateWarehouseOfProductQuery = conn.prepareStatement("UPDATE product SET warehouse=? WHERE id=?");
+            getWarehouseQuery = conn.prepareStatement("SELECT * FROM warehouse");
+            getMaxProductId = conn.prepareStatement("SELECT Max(id) FROM product");
+            getMaxLocationId = conn.prepareStatement("SELECT Max(id) FROM  location");
+            addProductQuery = conn.prepareStatement("INSERT INTO product values(?,?,?,?,?,?,?,?)");
+            addLocationQuery = conn.prepareStatement("INSERT INTO location values(?,?,?)");
         } catch (SQLException e) {
             e.printStackTrace();
         }
@@ -101,8 +106,8 @@ public class WarehouseDAO {
                 rs = getProductsByWarehouseQuery.executeQuery();
             }
                 while (rs.next()){
-                    getWarehouseQuery.setInt(1,rs.getInt(7));
-                    ResultSet r = getWarehouseQuery.executeQuery();
+                    getWarehouseByIdQuery.setInt(1,rs.getInt(7));
+                    ResultSet r = getWarehouseByIdQuery.executeQuery();
                     Warehouse w = getWarehouseFromRS(r);
                     getLocationQuery.setInt(1, rs.getInt(8));
                     ResultSet s= getLocationQuery.executeQuery();
@@ -165,5 +170,53 @@ public class WarehouseDAO {
         } catch (SQLException e) {
             e.printStackTrace();
         }
+    }
+
+    public ArrayList<Warehouse> getListWarehouse (){
+        ArrayList<Warehouse> result = new ArrayList<>();
+        try {
+            ResultSet rs = getWarehouseQuery.executeQuery();
+            while(rs.next()){
+                Warehouse wh = getWarehouseFromRS(rs);
+                result.add(wh);
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return result;
+    }
+
+    public void addProduct(Product product) {
+        try {
+            ResultSet rs = getMaxLocationId.executeQuery();
+            int id = 1;
+            if(rs.next()){
+                id = rs.getInt(1)+1;
+            }
+
+            addLocationQuery.setInt(1, id);
+            addLocationQuery.setInt(2, product.getLocation().getSection());
+            addLocationQuery.setInt(3, product.getLocation().getPosition());
+            addLocationQuery.executeUpdate();
+            rs = null;
+            rs = getMaxProductId.executeQuery();
+            int idProduct =1;
+            if(rs.next()){
+                idProduct = rs.getInt(1) + 1 ;
+            }
+
+            addProductQuery.setInt(1, idProduct);
+            addProductQuery.setString(2, product.getName());
+            addProductQuery.setInt(3, product.getAmount() );
+            addProductQuery.setInt(4, product.getImportPrice());
+            addProductQuery.setInt(5, product.getExportPrice());
+            addProductQuery.setString(6, product.getCode());
+            addProductQuery.setInt(7, product.getWarehouse().getId());
+            addProductQuery.setInt(8, id);
+            addProductQuery.executeUpdate();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+
     }
 }
