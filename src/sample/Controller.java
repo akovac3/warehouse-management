@@ -13,6 +13,7 @@ import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.stage.Stage;
+import net.sf.jasperreports.engine.JRException;
 
 import javax.swing.*;
 import javax.swing.filechooser.FileNameExtensionFilter;
@@ -175,7 +176,7 @@ public class Controller {
         Parent root = null;
         try {
             FXMLLoader loader = new FXMLLoader(getClass().getResource("/fxml/order.fxml"));
-            OrderController ctrl = new OrderController(dao.products(warehouse));
+            OrderController ctrl = new OrderController(dao.products(warehouse), true);
             loader.setController(ctrl);
             root = loader.load();
             stage.setTitle("Make order");
@@ -187,8 +188,9 @@ public class Controller {
                 Product product = ctrl.getProduct();
                 Order order = ctrl.getOrder();
                 if(product!=null) {
-                    dao.changeProduct(order.getProduct().getId(), order.getAmount());
+                    dao.changeProduct(order.getProduct().getId(), order.getAmount(), true);
                     dao.addOrder(order);
+                    dao.changeAnnualReport(order);
                     listProducts.setAll(dao.products(warehouse));
                 }
             });
@@ -198,6 +200,38 @@ public class Controller {
     }
 
     public void deliveryAction(ActionEvent actionEvent) {
+        Stage stage = new Stage();
+        Parent root = null;
+        try {
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("/fxml/order.fxml"));
+            OrderController ctrl = new OrderController(dao.products(warehouse), false);
+            loader.setController(ctrl);
+            root = loader.load();
+            stage.setTitle("Make order");
+            stage.setScene(new Scene(root, USE_COMPUTED_SIZE, USE_COMPUTED_SIZE));
+            stage.setResizable(true);
+            stage.show();
 
+            stage.setOnHiding( event -> {
+                Product product = ctrl.getProduct();
+                Delivery delivery = ctrl.getDelivery();
+                if(product!=null) {
+                    dao.changeProduct(delivery.getProduct().getId(), delivery.getAmount(), false);
+                    dao.changeAnnualReport(delivery);
+                    dao.addDelivery(delivery);
+                    listProducts.setAll(dao.products(warehouse));
+                }
+            });
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
+    public void printAction(ActionEvent actionEvent){
+        try {
+            new Report().showReport(dao.getConn());
+        } catch (JRException e) {
+            e.printStackTrace();
+        }
     }
 }

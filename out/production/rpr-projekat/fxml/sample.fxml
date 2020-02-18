@@ -17,7 +17,7 @@
                 <Menu text="File">
                     <items>
                         <MenuItem text="Save" onAction="#saveAction" />
-                        <MenuItem text="Print" />
+                        <MenuItem text="Print annual report" onAction="#printAction"/>
                         <Menu text="Language">
                             <items>
                                 <MenuItem text="Bosanski" />

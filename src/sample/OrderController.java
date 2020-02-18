@@ -18,19 +18,31 @@ public class OrderController {
     private Product product;
     public TextField fieldAmount;
     private SimpleStringProperty price;
+    private SimpleStringProperty title;
     private Order order;
+    private Delivery delivery;
     public DatePicker date;
+    boolean od;
 
-    public OrderController(ArrayList<Product> products) {
+    public OrderController(ArrayList<Product> products, boolean od) {
         listProducts = FXCollections.observableArrayList(products);
         price = new SimpleStringProperty("");
+        title = new SimpleStringProperty("");
         order=null;
         date = null;
+        delivery = null;
+        this.od = od;
     }
 
     @FXML
     public void initialize() {
         productChoice.setItems(listProducts);
+        if(od){
+            title.set("Make order");
+        }
+        else{
+            title.set("Get products");
+        }
     }
 
     public Product getProduct() {
@@ -58,13 +70,24 @@ public class OrderController {
 
         if(ok && productChoice.getValue()!=null && date.getValue()!=null){
             product = productChoice.getValue();
-            price.set(String.valueOf(amount*product.getExportPrice()));
 
-            order = new Order();
-            order.setAmount(amount);
-            order.setProduct(product);
-            order.setDate(date.getValue());
-            order.setTotalPrice(amount*product.getExportPrice());
+            if(od) {
+                order = new Order();
+                order.setAmount(amount);
+                order.setProduct(product);
+                order.setDate(date.getValue());
+                order.setTotalPrice(amount * product.getExportPrice());
+                price.set(String.valueOf(amount*product.getExportPrice()));
+
+            }
+            else{
+                delivery = new Delivery();
+                delivery.setAmount(amount);
+                delivery.setProduct(product);
+                delivery.setDate(date.getValue());
+                delivery.setTotalPrice(amount * product.getImportPrice());
+                price.set(String.valueOf(amount * product.getImportPrice()));
+            }
         }
     }
 
@@ -80,7 +103,25 @@ public class OrderController {
         this.price.set(price);
     }
 
+    public String getTitle() {
+        return title.get();
+    }
+
+    public SimpleStringProperty titleProperty() {
+        return title;
+    }
+
+    public void setTitle(String title) {
+        this.title.set(title);
+    }
+
     public Order getOrder(){
         return order;
     }
+
+    public Delivery getDelivery(){
+        return delivery;
+    }
+
+
 }

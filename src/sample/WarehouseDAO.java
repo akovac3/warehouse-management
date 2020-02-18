@@ -11,7 +11,7 @@ import java.util.Scanner;
 public class WarehouseDAO {
     private static WarehouseDAO instance;
     private Connection conn;
-    private PreparedStatement getProductQuery, getProductsQuery, getMaxOrderId, getWarehouseByIdQuery, addOrderQuery, getLocationQuery, getWarehouseByMarkQuery, getProductsByWarehouseQuery, updateWarehouseOfProductQuery, getWarehouseQuery, getMaxProductId, getMaxLocationId, addProductQuery, addLocationQuery, changeProductQuery;
+    private PreparedStatement getARQuery, addARQuery, changeCostQuery, changeProfitQuery, getMaxDeliveryId, addDeliveryQuery, getProductQuery, getProductsQuery, getMaxOrderId, getWarehouseByIdQuery, addOrderQuery, getLocationQuery, getWarehouseByMarkQuery, getProductsByWarehouseQuery, updateWarehouseOfProductQuery, getWarehouseQuery, getMaxProductId, getMaxLocationId, addProductQuery, addLocationQuery, changeProductQuery;
     private SimpleObjectProperty<Product> currentProduct = new SimpleObjectProperty<>();
 
     public WarehouseDAO (){
@@ -47,6 +47,12 @@ public class WarehouseDAO {
             changeProductQuery = conn.prepareStatement("UPDATE product SET amount=? WHERE id=?");
             getMaxOrderId = conn.prepareStatement("SELECT Max(id) FROM orders");
             addOrderQuery = conn.prepareStatement("INSERT INTO orders values(?,?,?,?,?)");
+            getMaxDeliveryId = conn.prepareStatement("SELECT Max(id) FROM delivery");
+            addDeliveryQuery = conn.prepareStatement("INSERT INTO delivery VALUES(?,?,?,?,?)");
+            getARQuery = conn.prepareStatement("SELECT * FROM annual_report");
+            changeCostQuery = conn.prepareStatement("UPDATE annual_report SET cost=? WHERE current_year=?");
+            changeProfitQuery = conn.prepareStatement("UPDATE annual_report SET profit=? WHERE current_year=?");
+            addARQuery = conn.prepareStatement("INSERT INTO annual_report VALUES(?,?,?)");
         } catch (SQLException e) {
             e.printStackTrace();
         }
@@ -218,7 +224,7 @@ public class WarehouseDAO {
 
     }
 
-    public void changeProduct(int id, int amount) {
+    public void changeProduct(int id, int amount, boolean od) {
         try {
             getProductQuery.setInt(1, id);
             ResultSet rs = getProductQuery.executeQuery();
@@ -227,7 +233,14 @@ public class WarehouseDAO {
                 p = getProductFromRS(rs);
             }
             if(p!=null) {
-                changeProductQuery.setInt(1, p.getAmount() - amount);
+                if(od) {
+                    if(p.getAmount()>amount) {
+                        changeProductQuery.setInt(1, p.getAmount() - amount);
+                    }
+                    else return;
+                } else {
+                    changeProductQuery.setInt(1, p.getAmount() + amount);
+                }
                 changeProductQuery.setInt(2, id);
                 changeProductQuery.executeUpdate();
             }
@@ -272,5 +285,59 @@ public class WarehouseDAO {
             e.printStackTrace();
         }
 
+    }
+
+    public void addDelivery(Delivery delivery) {
+        ResultSet rs = null;
+        try {
+            rs = getMaxDeliveryId.executeQuery();
+            int id = 1;
+            if(rs.next()){
+                id = rs.getInt(1)+1;
+            }
+
+            addDeliveryQuery.setInt(1, id);
+            addDeliveryQuery.setDate(2, Date.valueOf(delivery.getDate()));
+            addDeliveryQuery.setInt(3, delivery.getProduct().getId());
+            addDeliveryQuery.setInt(4, delivery.getAmount());
+            addDeliveryQuery.setInt(5, delivery.getTotalPrice());
+            addDeliveryQuery.executeUpdate();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+    }
+
+    public void changeAnnualReport(Order od) {
+        try {
+            boolean found = false;
+            int cost = 0, profit=0;
+            ResultSet rs = getARQuery.executeQuery();
+            while (rs.next()){
+                if(od.getDate().getYear() == rs.getInt(1)){
+                    found = true;
+                    profit = rs.getInt(2);
+                    cost = rs.getInt(3);
+                }
+            }
+            if(!found){
+                addARQuery.setInt(1, od.getDate().getYear());
+                addARQuery.setInt(2, cost);
+                addARQuery.setInt(3, profit);
+                addARQuery.executeUpdate();
+            }
+            if(od instanceof Delivery){
+                changeCostQuery.setInt(1, cost + od.getTotalPrice());
+                changeCostQuery.setInt(2, od.getDate().getYear());
+                changeCostQuery.executeUpdate();
+            }
+
+            else{
+                changeProfitQuery.setInt(1, profit + od.getTotalPrice());
+                changeProfitQuery.setInt(2, od.getDate().getYear());
+                changeProfitQuery.executeUpdate();
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
     }
 }

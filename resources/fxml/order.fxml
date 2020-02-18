@@ -31,7 +31,7 @@
       <ChoiceBox fx:id="productChoice" prefHeight="25.0" prefWidth="176.0" GridPane.columnIndex="3" GridPane.rowIndex="3" />
       <TextField fx:id="fieldAmount" GridPane.columnIndex="3" GridPane.rowIndex="4" />
       <Label text="${controller.price}" GridPane.columnIndex="3" GridPane.rowIndex="5" />
-      <Label alignment="CENTER_RIGHT" text="Make order" GridPane.columnIndex="3">
+      <Label alignment="CENTER_RIGHT" text="${controller.title}" GridPane.columnIndex="3">
          <font>
             <Font name="System Bold" size="14.0" />
          </font></Label>

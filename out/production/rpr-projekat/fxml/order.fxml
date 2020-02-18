@@ -1,10 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<?import javafx.geometry.*?>
+<?import javafx.geometry.Insets?>
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
-<?import javafx.scene.text.*?>
-
+<?import javafx.scene.text.Font?>
 <?import java.net.URL?>
 <GridPane hgap="2.0" prefHeight="262.0" prefWidth="332.0" vgap="10.0" xmlns="http://javafx.com/javafx/10.0.2-internal" xmlns:fx="http://javafx.com/fxml/1">
    <columnConstraints>
@@ -32,7 +31,7 @@
       <ChoiceBox fx:id="productChoice" prefHeight="25.0" prefWidth="176.0" GridPane.columnIndex="3" GridPane.rowIndex="3" />
       <TextField fx:id="fieldAmount" GridPane.columnIndex="3" GridPane.rowIndex="4" />
       <Label text="${controller.price}" GridPane.columnIndex="3" GridPane.rowIndex="5" />
-      <Label alignment="CENTER_RIGHT" text="Make order" GridPane.columnIndex="3">
+      <Label alignment="CENTER_RIGHT" text="${controller.title}" GridPane.columnIndex="3">
          <font>
             <Font name="System Bold" size="14.0" />
          </font></Label>
