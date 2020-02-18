@@ -169,4 +169,35 @@ public class Controller {
             }
         }
     }
+
+    public void orderAction(ActionEvent actionEvent){
+        Stage stage = new Stage();
+        Parent root = null;
+        try {
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("/fxml/order.fxml"));
+            OrderController ctrl = new OrderController(dao.products(warehouse));
+            loader.setController(ctrl);
+            root = loader.load();
+            stage.setTitle("Make order");
+            stage.setScene(new Scene(root, USE_COMPUTED_SIZE, USE_COMPUTED_SIZE));
+            stage.setResizable(true);
+            stage.show();
+
+            stage.setOnHiding( event -> {
+                Product product = ctrl.getProduct();
+                Order order = ctrl.getOrder();
+                if(product!=null) {
+                    dao.changeProduct(order.getProduct().getId(), order.getAmount());
+                    dao.addOrder(order);
+                    listProducts.setAll(dao.products(warehouse));
+                }
+            });
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
+    public void deliveryAction(ActionEvent actionEvent) {
+
+    }
 }

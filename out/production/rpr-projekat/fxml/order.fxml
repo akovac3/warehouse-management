@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.text.*?>
+
+<?import java.net.URL?>
+<GridPane hgap="2.0" prefHeight="262.0" prefWidth="332.0" vgap="10.0" xmlns="http://javafx.com/javafx/10.0.2-internal" xmlns:fx="http://javafx.com/fxml/1">
+   <columnConstraints>
+      <ColumnConstraints />
+      <ColumnConstraints maxWidth="0.0" minWidth="0.0" prefWidth="0.0" />
+      <ColumnConstraints maxWidth="0.0" minWidth="0.0" prefWidth="0.0" />
+      <ColumnConstraints />
+   </columnConstraints>
+   <rowConstraints>
+      <RowConstraints maxHeight="28.0" minHeight="22.0" prefHeight="28.0" />
+      <RowConstraints maxHeight="20.0" minHeight="14.0" prefHeight="14.0" />
+      <RowConstraints />
+      <RowConstraints />
+      <RowConstraints />
+      <RowConstraints />
+      <RowConstraints />
+      <RowConstraints />
+   </rowConstraints>
+   <children>
+      <Label text="Date" GridPane.rowIndex="1" />
+      <Label text="Products " GridPane.rowIndex="3" />
+      <Label text="Amount" GridPane.rowIndex="4" />
+      <Label prefHeight="17.0" prefWidth="75.0" text="Total price" GridPane.rowIndex="5" />
+      <DatePicker fx:id="date" prefHeight="32.0" prefWidth="164.0" GridPane.columnIndex="3" GridPane.rowIndex="1" />
+      <ChoiceBox fx:id="productChoice" prefHeight="25.0" prefWidth="176.0" GridPane.columnIndex="3" GridPane.rowIndex="3" />
+      <TextField fx:id="fieldAmount" GridPane.columnIndex="3" GridPane.rowIndex="4" />
+      <Label text="${controller.price}" GridPane.columnIndex="3" GridPane.rowIndex="5" />
+      <Label alignment="CENTER_RIGHT" text="Make order" GridPane.columnIndex="3">
+         <font>
+            <Font name="System Bold" size="14.0" />
+         </font></Label>
+      <Button alignment="CENTER" mnemonicParsing="false" onAction="#okAction" prefHeight="25.0" prefWidth="72.0" text="Ok" GridPane.columnIndex="3" GridPane.halignment="CENTER" GridPane.rowIndex="7" />
+
+   </children>
+
+   <padding>
+      <Insets left="35.0" top="10.0" />
+   </padding>
+ <stylesheets>
+    <URL value="@/css/style.css" />
+ </stylesheets>
+</GridPane>

@@ -1,15 +1,15 @@
 package sample;
 
-import java.util.Date;
+import java.time.LocalDate;
 
 public class Order {
     private int id;
-    private Date date;
+    private LocalDate date;
     private Product product;
     private int amount;
     private int totalPrice;
 
-    public Order(int id, Date date, Product product, int amount, int totalPrice) {
+    public Order(int id, LocalDate date, Product product, int amount, int totalPrice) {
         this.id = id;
         this.date = date;
         this.product = product;
@@ -33,11 +33,11 @@ public class Order {
         this.id = id;
     }
 
-    public Date getDate() {
+    public LocalDate getDate() {
         return date;
     }
 
-    public void setDate(Date date) {
+    public void setDate(LocalDate date) {
         this.date = date;
     }
 

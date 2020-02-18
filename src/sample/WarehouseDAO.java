@@ -11,7 +11,7 @@ import java.util.Scanner;
 public class WarehouseDAO {
     private static WarehouseDAO instance;
     private Connection conn;
-    private PreparedStatement getProductsQuery, getWarehouseByIdQuery, getLocationQuery, getWarehouseByMarkQuery, getProductsByWarehouseQuery, updateWarehouseOfProductQuery, getWarehouseQuery, getMaxProductId, getMaxLocationId, addProductQuery, addLocationQuery;
+    private PreparedStatement getProductQuery, getProductsQuery, getMaxOrderId, getWarehouseByIdQuery, addOrderQuery, getLocationQuery, getWarehouseByMarkQuery, getProductsByWarehouseQuery, updateWarehouseOfProductQuery, getWarehouseQuery, getMaxProductId, getMaxLocationId, addProductQuery, addLocationQuery, changeProductQuery;
     private SimpleObjectProperty<Product> currentProduct = new SimpleObjectProperty<>();
 
     public WarehouseDAO (){
@@ -33,6 +33,7 @@ public class WarehouseDAO {
         }
 
         try {
+            getProductQuery = conn.prepareStatement("SELECT * FROM product WHERE id = ?");
             getWarehouseByIdQuery = conn.prepareStatement("SELECT id, manager, address, mark, image FROM warehouse WHERE id=?");
             getLocationQuery = conn.prepareStatement("SELECT * FROM location WHERE id=?");
             getWarehouseByMarkQuery = conn.prepareStatement("SELECT id, manager, address, mark, image FROM warehouse WHERE mark=?");
@@ -43,6 +44,9 @@ public class WarehouseDAO {
             getMaxLocationId = conn.prepareStatement("SELECT Max(id) FROM  location");
             addProductQuery = conn.prepareStatement("INSERT INTO product values(?,?,?,?,?,?,?,?)");
             addLocationQuery = conn.prepareStatement("INSERT INTO location values(?,?,?)");
+            changeProductQuery = conn.prepareStatement("UPDATE product SET amount=? WHERE id=?");
+            getMaxOrderId = conn.prepareStatement("SELECT Max(id) FROM orders");
+            addOrderQuery = conn.prepareStatement("INSERT INTO orders values(?,?,?,?,?)");
         } catch (SQLException e) {
             e.printStackTrace();
         }
@@ -106,13 +110,7 @@ public class WarehouseDAO {
                 rs = getProductsByWarehouseQuery.executeQuery();
             }
                 while (rs.next()){
-                    getWarehouseByIdQuery.setInt(1,rs.getInt(7));
-                    ResultSet r = getWarehouseByIdQuery.executeQuery();
-                    Warehouse w = getWarehouseFromRS(r);
-                    getLocationQuery.setInt(1, rs.getInt(8));
-                    ResultSet s= getLocationQuery.executeQuery();
-                    Location l = getLocationFromRS(s);
-                    Product p = new Product(rs.getInt(1), rs.getString(2), rs.getInt(3), rs.getInt(4), rs.getInt(5), rs.getString(6), w, l);
+                    Product p = getProductFromRS(rs);
                     result.add(p);
                 }
             } catch (SQLException ex) {
@@ -220,4 +218,59 @@ public class WarehouseDAO {
 
     }
 
+    public void changeProduct(int id, int amount) {
+        try {
+            getProductQuery.setInt(1, id);
+            ResultSet rs = getProductQuery.executeQuery();
+            Product p = null;
+            if(rs.next()) {
+                p = getProductFromRS(rs);
+            }
+            if(p!=null) {
+                changeProductQuery.setInt(1, p.getAmount() - amount);
+                changeProductQuery.setInt(2, id);
+                changeProductQuery.executeUpdate();
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+
+    }
+
+    private Product getProductFromRS(ResultSet rs) {
+        Product product=null;
+        try {
+            getWarehouseByIdQuery.setInt(1,rs.getInt(7));
+            ResultSet r = getWarehouseByIdQuery.executeQuery();
+            Warehouse w = getWarehouseFromRS(r);
+            getLocationQuery.setInt(1, rs.getInt(8));
+            ResultSet s= getLocationQuery.executeQuery();
+            Location l = getLocationFromRS(s);
+            product = new Product(rs.getInt(1), rs.getString(2), rs.getInt(3), rs.getInt(4), rs.getInt(5), rs.getString(6), w, l);
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return product;
+    }
+
+    public void addOrder(Order order) {
+        ResultSet rs = null;
+        try {
+            rs = getMaxOrderId.executeQuery();
+            int id = 1;
+            if(rs.next()){
+                id = rs.getInt(1)+1;
+            }
+
+            addOrderQuery.setInt(1, id);
+            addOrderQuery.setDate(2, Date.valueOf(order.getDate()));
+            addOrderQuery.setInt(3, order.getProduct().getId());
+            addOrderQuery.setInt(4, order.getAmount());
+            addOrderQuery.setInt(5, order.getTotalPrice());
+            addOrderQuery.executeUpdate();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+
+    }
 }

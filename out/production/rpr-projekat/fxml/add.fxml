@@ -1,0 +1,65 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.text.Font?>
+<?import java.net.URL?>
+<GridPane prefHeight="350.0" prefWidth="300.0" xmlns="http://javafx.com/javafx/10.0.2-internal" xmlns:fx="http://javafx.com/fxml/1">
+   <columnConstraints>
+      <ColumnConstraints />
+      <ColumnConstraints />
+   </columnConstraints>
+   <rowConstraints>
+      <RowConstraints />
+      <RowConstraints minHeight="10.0" prefHeight="30.0" />
+      <RowConstraints />
+      <RowConstraints />
+      <RowConstraints />
+      <RowConstraints />
+      <RowConstraints />
+      <RowConstraints />
+      <RowConstraints />
+      <RowConstraints />
+      <RowConstraints />
+      <RowConstraints />
+      <RowConstraints />
+      <RowConstraints />
+    </rowConstraints>
+   <children>
+      <Label lineSpacing="2.0" text="Add product" GridPane.columnSpan="2" GridPane.halignment="CENTER" GridPane.rowSpan="2">
+         <font>
+            <Font name="System Bold" size="14.0" />
+         </font></Label>
+      <Label text="Name: " GridPane.rowIndex="2" />
+      <TextField fx:id="fieldName" GridPane.columnIndex="1" GridPane.rowIndex="2" />
+      <TextField fx:id="fieldAmount" GridPane.columnIndex="1" GridPane.rowIndex="3" />
+      <Label text="Amount: " GridPane.rowIndex="3" />
+      <Label text="Import price: " GridPane.rowIndex="4" />
+      <Label text="Export price: " GridPane.rowIndex="5" />
+      <Label text="Code: " GridPane.rowIndex="6" />
+      <Label text="Warehouse: " GridPane.rowIndex="7" />
+      <Label text="Location: " GridPane.rowIndex="8" />
+      <Label text="Section " GridPane.columnIndex="1" GridPane.rowIndex="8" />
+      <Label text="Position " GridPane.columnIndex="1" GridPane.rowIndex="10" />
+      <ChoiceBox fx:id="choiceWarehouse" prefWidth="150.0" GridPane.columnIndex="1" GridPane.rowIndex="7" />
+      <TextField fx:id="fieldImport" GridPane.columnIndex="1" GridPane.rowIndex="4" />
+      <TextField fx:id="fieldExport" GridPane.columnIndex="1" GridPane.rowIndex="5" />
+      <TextField fx:id="fieldCode" GridPane.columnIndex="1" GridPane.rowIndex="6" />
+      <TextField fx:id="fieldSection" GridPane.columnIndex="1" GridPane.rowIndex="9" />
+      <TextField fx:id="fieldPosition" GridPane.columnIndex="1" GridPane.rowIndex="11" />
+
+      <HBox GridPane.columnSpan="2" GridPane.rowIndex="13" GridPane.halignment="CENTER" spacing="100.0">
+         <Button prefHeight="25.0" prefWidth="77.0" text="Ok" onAction="#okAction"/>
+         <Button prefHeight="25.0" prefWidth="78.0" text="Exit" GridPane.columnIndex="1" onAction="#exitAction" />
+      </HBox>
+   </children>
+
+   <padding>
+      <Insets bottom="10.0" left="20.0" right="10.0" top="10.0" />
+   </padding>
+
+    <stylesheets>
+        <URL value="@/css/style.css" />
+    </stylesheets>
+</GridPane>

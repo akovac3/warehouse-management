@@ -26,8 +26,7 @@ CREATE TABLE IF NOT EXISTS "warehouse" (
 	"image"  TEXT,
 	PRIMARY KEY("id")
 );
-
-CREATE TABLE IF NOT EXISTS "order" (
+CREATE TABLE IF NOT EXISTS "orders" (
     "id"    INTEGER,
     "date"  DATE,
     "product"  INTEGER,
@@ -36,7 +35,6 @@ CREATE TABLE IF NOT EXISTS "order" (
     PRIMARY KEY("id"),
 	FOREIGN KEY("product") REFERENCES "product"("id")
 );
-
 CREATE TABLE IF NOT EXISTS "delivery" (
     "id"    INTEGER,
     "date"  DATE,
@@ -46,7 +44,6 @@ CREATE TABLE IF NOT EXISTS "delivery" (
     PRIMARY KEY("id"),
 	FOREIGN KEY("product") REFERENCES "product"("id")
 );
-
 CREATE TABLE IF NOT EXISTS "annual_report" (
     "id"   INTEGER,
     "year"   INTEGER,
@@ -54,7 +51,6 @@ CREATE TABLE IF NOT EXISTS "annual_report" (
     "cost"   INTEGER,
     PRIMARY KEY("id")
 );
-
 INSERT INTO "product" VALUES (1,'keyboard',15,20,30,'#123',1,1);
 INSERT INTO "product" VALUES (2,'mouse',10,15,25,'#124',1,2);
 INSERT INTO "product" VALUES (3,'monitor',12,200,300,'#125',1,3);

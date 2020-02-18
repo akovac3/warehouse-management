@@ -64,8 +64,8 @@
 
         <HBox prefHeight="40.0" prefWidth="200.0" spacing="5.0" BorderPane.alignment="BOTTOM_CENTER">
                 <Button fx:id="btnChoose" mnemonicParsing="false" onAction="#chooseAction" prefHeight="25.0" prefWidth="205.0" text="Choose warehouse" />
-                <Button fx:id="btnMakeOrder" mnemonicParsing="false" prefHeight="25.0" prefWidth="205.0" text="Make order" />
-                <Button fx:id="btnGetProd" cancelButton="true" mnemonicParsing="false" prefHeight="25.0" prefWidth="205.0" text="Get products" />
+                <Button fx:id="btnMakeOrder" mnemonicParsing="false" prefHeight="25.0" prefWidth="205.0" text="Make order" onAction="#orderAction"/>
+                <Button fx:id="btnGetProd" cancelButton="true" mnemonicParsing="false" prefHeight="25.0" prefWidth="205.0" text="Get products" onAction="#deliveryAction"/>
                 <Button fx:id="btnExit" onAction="#exitAction" prefHeight="25.0" prefWidth="210.0" text="Exit" />
         </HBox>
     </bottom>
