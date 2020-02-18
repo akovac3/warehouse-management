@@ -59,9 +59,6 @@ public class Controller {
             dao.setCurrentProduct(newProduct);
         });
 
-        dao.currentProductProperty().addListener((obs, oldProduct, newProduct) -> {
-
-        });
     }
 
     public void exitAction(ActionEvent actionEvent){
