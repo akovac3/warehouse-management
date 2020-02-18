@@ -37,6 +37,7 @@ public class Controller {
     public TableColumn colExportPrice;
     public TableColumn colCode;
     public TableColumn colLocation;
+    public TableColumn colWarehouse;
     private WarehouseDAO dao;
     private ObservableList<Product> listProducts;
 
@@ -53,6 +54,7 @@ public class Controller {
         colImportPrice.setCellValueFactory(new PropertyValueFactory("importPrice"));
         colExportPrice.setCellValueFactory(new PropertyValueFactory("exportPrice"));
         colCode.setCellValueFactory(new PropertyValueFactory("code"));
+        colWarehouse.setCellValueFactory(new PropertyValueFactory("warehouse"));
         colLocation.setCellValueFactory(new PropertyValueFactory("location"));
 
         tableViewProducts.getSelectionModel().selectedItemProperty().addListener((obs, oldProduct, newProduct) -> {
